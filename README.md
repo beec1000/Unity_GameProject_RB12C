@@ -1,2 +1,1 @@
-# UnityPlatformer_12C
-this is a prototype for a platformer game
+This is a platformer game project, for school(for now).
