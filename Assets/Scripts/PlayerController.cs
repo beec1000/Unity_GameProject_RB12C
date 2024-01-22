@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -14,12 +16,23 @@ public class PlayerController : MonoBehaviour
     private bool isFacingRight;
     private bool isGrounded;
 
+    private Vector2 startPos;
+    SpriteRenderer spriteRenderer;
+    public ParticleController particleController;
+
+    private void Awake()
+    {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+    }
+
     private void Start()
     {
         animator = GetComponent<Animator>();
         rigidbody2d = GetComponent<Rigidbody2D>();
         isFacingRight = true;
         isGrounded = false;
+
+        startPos = transform.position;
     }
     private void Update()
     {
@@ -47,8 +60,32 @@ public class PlayerController : MonoBehaviour
     {
         isFacingRight = !isFacingRight;
         transform.localScale = new(
-            x:transform.localScale.x * -1,
+            x: transform.localScale.x * -1,
             y: transform.localScale.y,
             z: transform.localScale.z);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("DamagingObstacle")) 
+        { 
+            Die();
+        }
+    }
+
+    void Die() 
+    { 
+        particleController.PlayDyingParticle();
+        StartCoroutine(Respawn(.6f));
+    }
+
+    System.Collections.IEnumerator Respawn(float duration)
+    {
+        rigidbody2d.simulated = false;
+        spriteRenderer.enabled = false;
+        yield return new WaitForSeconds(duration);
+        transform.position = startPos;
+        rigidbody2d.simulated = true;
+        spriteRenderer.enabled = true;
     }
 }
