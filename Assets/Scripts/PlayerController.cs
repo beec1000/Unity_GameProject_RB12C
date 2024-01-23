@@ -10,15 +10,16 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform groundChecker;
     [SerializeField] private LayerMask groundLayer;
 
+    [SerializeField] ParticleSystem dyingParticle;
 
     private Animator animator;
     private Rigidbody2D rigidbody2d;
     private bool isFacingRight;
     private bool isGrounded;
+    private bool isDead;
 
     private Vector2 startPos;
     SpriteRenderer spriteRenderer;
-    public ParticleController particleController;
 
     private void Awake()
     {
@@ -31,6 +32,7 @@ public class PlayerController : MonoBehaviour
         rigidbody2d = GetComponent<Rigidbody2D>();
         isFacingRight = true;
         isGrounded = false;
+        isDead = false;
 
         startPos = transform.position;
     }
@@ -65,27 +67,28 @@ public class PlayerController : MonoBehaviour
             z: transform.localScale.z);
     }
 
+    void Die()
+    {
+        dyingParticle.Play();
+        StartCoroutine(Respawn(.6f));
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("DamagingObstacle")) 
-        { 
+        {   
             Die();
         }
     }
 
-    void Die() 
-    { 
-        particleController.PlayDyingParticle();
-        StartCoroutine(Respawn(.6f));
-    }
-
     System.Collections.IEnumerator Respawn(float duration)
-    {
+    {    
         rigidbody2d.simulated = false;
         spriteRenderer.enabled = false;
         yield return new WaitForSeconds(duration);
         transform.position = startPos;
         rigidbody2d.simulated = true;
         spriteRenderer.enabled = true;
+        isDead = false;
     }
 }

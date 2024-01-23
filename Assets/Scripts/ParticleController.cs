@@ -5,14 +5,14 @@ using UnityEngine;
 public class ParticleController : MonoBehaviour
 {
     [SerializeField] ParticleSystem dyingParticle;
-    bool isDead;
+    bool isDead = false;
 
     public void PlayDyingParticle()
     {
-        dyingParticle.Play();    
+        if (isDead) dyingParticle.Play();    
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    public void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.CompareTag("DamagingObstacle"))
         {
