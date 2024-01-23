@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private Transform groundChecker;
     [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private LayerMask secretLayer;
 
     [SerializeField] ParticleSystem dyingParticle;
 
@@ -32,12 +33,17 @@ public class PlayerController : MonoBehaviour
         rigidbody2d = GetComponent<Rigidbody2D>();
         isFacingRight = true;
         isGrounded = false;
-        isDead = false;
+        dyingParticle.Pause();
+        isDead = true;
 
         startPos = transform.position;
     }
     private void Update()
     {
+        if (!isDead && rigidbody2d.position.y < -60)
+        {
+            Die();
+        }
         if (isGrounded && Input.GetButtonDown("Jump"))
         {
             isGrounded = false;
@@ -69,8 +75,14 @@ public class PlayerController : MonoBehaviour
 
     void Die()
     {
+        isDead = true;
         dyingParticle.Play();
         StartCoroutine(Respawn(.6f));
+    }
+
+    void Disappear()
+    {
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -78,6 +90,11 @@ public class PlayerController : MonoBehaviour
         if (collision.CompareTag("DamagingObstacle")) 
         {   
             Die();
+        }
+
+        if (collision.CompareTag("Secret1"))
+        {
+            Disappear();
         }
     }
 
