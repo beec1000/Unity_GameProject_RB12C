@@ -6,6 +6,7 @@ TagManager:
   tags:
   - DamagingObstacle
   - DeathEffect
+  - Secret1
   layers:
   - Default
   - TransparentFX
@@ -13,7 +14,7 @@ TagManager:
   - Ground
   - Water
   - UI
-  - 
+  - Secret
   - 
   - 
   - 

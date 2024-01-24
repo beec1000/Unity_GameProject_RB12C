@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private Transform groundChecker;
     [SerializeField] private LayerMask groundLayer;
-    [SerializeField] private LayerMask secretLayer;
+    [SerializeField] private GameObject SecretTiles;
 
     [SerializeField] ParticleSystem dyingParticle;
 
@@ -34,16 +34,17 @@ public class PlayerController : MonoBehaviour
         isFacingRight = true;
         isGrounded = false;
         dyingParticle.Pause();
-        isDead = true;
+        isDead = false;
 
-        startPos = transform.position;
+    startPos = transform.position;
     }
     private void Update()
     {
-        if (!isDead && rigidbody2d.position.y < -60)
+        if (!isDead && rigidbody2d.position.y < -30)
         {
             Die();
         }
+
         if (isGrounded && Input.GetButtonDown("Jump"))
         {
             isGrounded = false;
@@ -80,11 +81,6 @@ public class PlayerController : MonoBehaviour
         StartCoroutine(Respawn(.6f));
     }
 
-    void Disappear()
-    {
-
-    }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("DamagingObstacle")) 
@@ -94,7 +90,8 @@ public class PlayerController : MonoBehaviour
 
         if (collision.CompareTag("Secret1"))
         {
-            Disappear();
+            SecretTiles.SetActive(false);
+
         }
     }
 
@@ -107,5 +104,6 @@ public class PlayerController : MonoBehaviour
         rigidbody2d.simulated = true;
         spriteRenderer.enabled = true;
         isDead = false;
+        SecretTiles.SetActive(true);
     }
 }
