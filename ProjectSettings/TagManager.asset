@@ -7,6 +7,8 @@ TagManager:
   - DamagingObstacle
   - DeathEffect
   - Secret1
+  - Coin
+  - JumpPad
   layers:
   - Default
   - TransparentFX

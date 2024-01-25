@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
 
@@ -9,15 +8,23 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private Transform groundChecker;
     [SerializeField] private LayerMask groundLayer;
+
     [SerializeField] private GameObject SecretTiles;
+    [SerializeField] private GameObject HiddenDamagingTiles;
+
+    [SerializeField] private GameObject JumpingPad;
+    
+
+    [SerializeField] private GameObject Coins;
 
     [SerializeField] ParticleSystem dyingParticle;
 
     private Animator animator;
-    private Rigidbody2D rigidbody2d;
+    private Rigidbody2D player;
     private bool isFacingRight;
     private bool isGrounded;
     private bool isDead;
+    private bool isOnJumpPad;
 
     private Vector2 startPos;
     SpriteRenderer spriteRenderer;
@@ -30,17 +37,27 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         animator = GetComponent<Animator>();
-        rigidbody2d = GetComponent<Rigidbody2D>();
+        player = GetComponent<Rigidbody2D>();
+
+        dyingParticle.Pause();
+
         isFacingRight = true;
         isGrounded = false;
-        dyingParticle.Pause();
+        isOnJumpPad = false;
         isDead = false;
 
-    startPos = transform.position;
+        SecretTiles.SetActive(true);
+        HiddenDamagingTiles.SetActive(false);
+        JumpingPad.SetActive(false);
+        Coins.SetActive(true);
+
+        startPos = transform.position;
     }
+    
+
     private void Update()
     {
-        if (!isDead && rigidbody2d.position.y < -30)
+        if (!isDead && player.position.y < -30)
         {
             Die();
         }
@@ -49,7 +66,28 @@ public class PlayerController : MonoBehaviour
         {
             isGrounded = false;
             animator.SetBool("isGrounded", false);
-            rigidbody2d.AddForce(new(0, jumpHeight));
+            player.AddForce(new Vector2(0, jumpHeight));
+        }
+
+        if ((player.position.x < -19.6 &&
+            player.position.y < -8) && (player.position.x > -24.5 && player.position.y > -9))
+        {
+            HiddenDamagingTiles.SetActive(true);
+        }
+
+        if (player.position.x > -19.8 && player.position.x < -18 && player.position.y < -8 && player.position.y > -8.5 && Input.GetButtonDown("Jump") && isFacingRight)
+        {
+            if (!isGrounded)
+            {
+                JumpingPad.SetActive(true);
+                isOnJumpPad = true;
+            }
+        }
+
+        if (isOnJumpPad && isFacingRight && !isGrounded)
+        {
+            player.AddForce(new Vector2(0, jumpHeight * 0.5f));
+            isOnJumpPad = false;
         }
     }
 
@@ -57,24 +95,24 @@ public class PlayerController : MonoBehaviour
     {
         float move = Input.GetAxis("Horizontal");
         animator.SetFloat("speed", Mathf.Abs(move));
-        rigidbody2d.velocity = new(move * maxSpeed, rigidbody2d.velocity.y);
+        player.velocity = new Vector2(move * maxSpeed, player.velocity.y);
         if ((move < 0 && isFacingRight) || (move > 0 && !isFacingRight)) Flip();
 
         isGrounded = Physics2D.OverlapCircle(groundChecker.position, .15f, groundLayer);
         animator.SetBool("isGrounded", isGrounded);
-        animator.SetFloat("verticalSpeed", rigidbody2d.velocity.y);
-
+        animator.SetFloat("verticalSpeed", player.velocity.y);
     }
+
     private void Flip()
     {
         isFacingRight = !isFacingRight;
-        transform.localScale = new(
+        transform.localScale = new Vector3(
             x: transform.localScale.x * -1,
             y: transform.localScale.y,
             z: transform.localScale.z);
     }
 
-    void Die()
+    private void Die()
     {
         isDead = true;
         dyingParticle.Play();
@@ -83,27 +121,39 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("DamagingObstacle")) 
-        {   
+        if (collision.CompareTag("DamagingObstacle"))
+        {
             Die();
         }
 
         if (collision.CompareTag("Secret1"))
         {
             SecretTiles.SetActive(false);
-
+        }
+        if (collision.CompareTag("JumpPad"))
+        {
+            player.AddForce(new Vector2(0, jumpHeight * 2));
+        }
+        if (collision.CompareTag("Coin"))
+        {
+            CoinCounter.currentCoins += 1;
+            Coins.SetActive(false);
         }
     }
 
-    System.Collections.IEnumerator Respawn(float duration)
-    {    
-        rigidbody2d.simulated = false;
+    IEnumerator Respawn(float duration)
+    {
+        player.simulated = false;
         spriteRenderer.enabled = false;
         yield return new WaitForSeconds(duration);
         transform.position = startPos;
-        rigidbody2d.simulated = true;
+        player.simulated = true;
         spriteRenderer.enabled = true;
         isDead = false;
         SecretTiles.SetActive(true);
+        HiddenDamagingTiles.SetActive(false);
+        JumpingPad.SetActive(false);
+        Coins.SetActive(true);
+        CoinCounter.currentCoins = 0;
     }
 }
