@@ -9,6 +9,7 @@ TagManager:
   - Secret1
   - Coin
   - JumpPad
+  - Weapon
   layers:
   - Default
   - TransparentFX
