@@ -13,9 +13,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject HiddenDamagingTiles;
 
     [SerializeField] private GameObject JumpingPad;
-    
-
-    [SerializeField] private GameObject Coins;
 
     [SerializeField] ParticleSystem dyingParticle;
 
@@ -49,7 +46,6 @@ public class PlayerController : MonoBehaviour
         SecretTiles.SetActive(true);
         HiddenDamagingTiles.SetActive(false);
         JumpingPad.SetActive(false);
-        Coins.SetActive(true);
 
         startPos = transform.position;
     }
@@ -130,14 +126,15 @@ public class PlayerController : MonoBehaviour
         {
             SecretTiles.SetActive(false);
         }
+
         if (collision.CompareTag("JumpPad"))
         {
             player.AddForce(new Vector2(0, jumpHeight * 2));
         }
-        if (collision.CompareTag("Coin"))
+
+        if (collision.gameObject.CompareTag("Coin"))
         {
-            CoinCounter.currentCoins += 1;
-            Coins.SetActive(false);
+            Destroy(collision.gameObject);
         }
     }
 
@@ -153,7 +150,5 @@ public class PlayerController : MonoBehaviour
         SecretTiles.SetActive(true);
         HiddenDamagingTiles.SetActive(false);
         JumpingPad.SetActive(false);
-        Coins.SetActive(true);
-        CoinCounter.currentCoins = 0;
     }
 }

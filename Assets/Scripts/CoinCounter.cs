@@ -6,16 +6,21 @@ using UnityEngine.UI;
 
 public class CoinCounter : MonoBehaviour
 {
-    private TextMeshProUGUI coinText;
-    public static int currentCoins;
+    public static CoinCounter Instance;
+    public TextMeshProUGUI text;
+    int score;
 
-    void Start()
+    private void Start()
     {
-        coinText = GetComponent<TextMeshProUGUI>();
+        if (Instance == null) 
+        { 
+            Instance = this;
+        }
     }
 
-    void Update()
+    public void ChangeScore(int coinValue)
     {
-        coinText.text = currentCoins.ToString();
+        score += coinValue;
+        text.text = score.ToString();
     }
 }
