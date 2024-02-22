@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -71,20 +72,17 @@ public class PlayerController : MonoBehaviour
             HiddenDamagingTiles.SetActive(true);
         }
 
-        if (player.position.x > -19.8 && player.position.x < -18 && player.position.y < -8 && player.position.y > -8.5 && Input.GetButtonDown("Jump") && isFacingRight)
+        if (CoinCounter.Instance.score == 6)
         {
-            if (!isGrounded)
-            {
-                JumpingPad.SetActive(true);
-                isOnJumpPad = true;
-            }
+            JumpingPad.SetActive(true);
+            isOnJumpPad = true;
         }
 
-        if (isOnJumpPad && isFacingRight && !isGrounded)
-        {
-            player.AddForce(new Vector2(0, jumpHeight * 0.5f));
-            isOnJumpPad = false;
-        }
+        //if (isOnJumpPad && isFacingRight && !isGrounded)
+        //{
+        //    player.AddForce(new Vector2(0, jumpHeight * 0.5f));
+        //    isOnJumpPad = false;
+        //}
     }
 
     private void FixedUpdate()
@@ -150,5 +148,6 @@ public class PlayerController : MonoBehaviour
         SecretTiles.SetActive(true);
         HiddenDamagingTiles.SetActive(false);
         JumpingPad.SetActive(false);
+        SceneManager.LoadSceneAsync(1);
     }
 }

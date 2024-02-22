@@ -4,16 +4,11 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
-    // Start is called before the first frame update
+    private bool HandsFree;
+
     void Start()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        HandsFree = true;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -21,6 +16,7 @@ public class Weapon : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             transform.parent = collision.transform;
+            HandsFree = false;
             GetComponent<Collider2D>().enabled = false;
         }
     }

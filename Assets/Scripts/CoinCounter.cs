@@ -8,7 +8,7 @@ public class CoinCounter : MonoBehaviour
 {
     public static CoinCounter Instance;
     public TextMeshProUGUI text;
-    int score;
+    public int score;
 
     private void Start()
     {
