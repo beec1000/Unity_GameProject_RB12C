@@ -122,9 +122,9 @@
                 SecretTiles.SetActive(false);
             }
 
-            if (collision.CompareTag("JumpPad"))
+            if (collision.CompareTag("JumpPad") && !isGrounded)
             {
-                player.AddForce(new Vector2(0, jumpHeight * 2));
+                player.AddForce(new Vector2(0, jumpHeight * 1.5f));
             }
 
             if (collision.gameObject.CompareTag("Coin"))
@@ -132,29 +132,27 @@
                 Destroy(collision.gameObject);
             }
 
-        if (collision.CompareTag("Weapon"))
-        {
-            Transform weaponTransform = collision.transform;
-            weaponTransform.parent = transform;
-
-            if (isFacingRight)
+            if (collision.CompareTag("Weapon"))
             {
-                weaponTransform.localPosition = new Vector3(1f, 0f, 0f);
-            }
-            else
-            {
-                weaponTransform.localPosition = new Vector3(-1f, 0f, 0f);
-                weaponTransform.localScale = new Vector3(
-                x: weaponTransform.localScale.x * -1,
-                y: weaponTransform.localScale.y,
-                z: weaponTransform.localScale.z);
-            }
+                Transform weaponTransform = collision.transform;
+                weaponTransform.parent = transform;
 
-            weaponTransform.GetComponent<Collider2D>().enabled = false;
+                if (isFacingRight)
+                {
+                    weaponTransform.localPosition = new Vector3(0.3f, -0.1f, 0f);
+                }
+                else
+                {
+                    weaponTransform.localPosition = new Vector3(-0.3f, -0.1f, 0f);
+                    weaponTransform.localScale = new Vector3(
+                    x: weaponTransform.localScale.x * -1,
+                    y: weaponTransform.localScale.y,
+                    z: weaponTransform.localScale.z);
+                }
+
+                weaponTransform.GetComponent<Collider2D>().enabled = false;
+            }
         }
-
-
-    }
 
     IEnumerator Respawn(float duration)
         {
