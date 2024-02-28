@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour
     private Animator animator;
     private Rigidbody2D player;
     private bool isFacingRight;
-    private bool isGrounded;
+    public bool isGrounded;
     private bool isAlive;
 
     private Vector2 startPos;
@@ -30,6 +30,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float MaxHealth = 3f;
 
     private float currentHealth;
+
+    [SerializeField] private Transform gunMuzzle;
+    [SerializeField] private GameObject projectile;
+
+    [SerializeField] private float fireRate = .5f;
+    private float nextFire;
+
+    private bool hasWeapon = false;
 
     private void Awake()
     {
@@ -54,7 +62,7 @@ public class PlayerController : MonoBehaviour
         startPos = transform.position;
         currentHealth = MaxHealth;
     }
-    
+
 
     private void Update()
     {
@@ -86,6 +94,13 @@ public class PlayerController : MonoBehaviour
         //    player.AddForce(new Vector2(0, jumpHeight * 0.5f));
         //    isOnJumpPad = false;
         //}
+
+        if (Time.time >= nextFire && Input.GetAxisRaw("Fire1") != 0 && hasWeapon)
+        {
+            nextFire = Time.time + fireRate;
+            Instantiate(projectile, gunMuzzle.position, Quaternion.Euler(0, 0,
+                z: isFacingRight ? 0 : 180));
+        }
     }
 
     private void FixedUpdate()
@@ -123,6 +138,7 @@ public class PlayerController : MonoBehaviour
     private void Die()
     {
         isAlive = false;
+        hasWeapon = false;
         dyingParticle.Play();
         StartCoroutine(Respawn(.6f));
     }
@@ -169,11 +185,12 @@ public class PlayerController : MonoBehaviour
 
             weaponTransform.GetComponent<Collider2D>().enabled = false;
 
-                
+            hasWeapon = true;
+
         }
     }
 
-    
+
 
 
     IEnumerator Respawn(float duration)
@@ -190,4 +207,9 @@ public class PlayerController : MonoBehaviour
         JumpingPad.SetActive(false);
         SceneManager.LoadSceneAsync(1);
     }
+
+    //public bool IsGrounded()
+    //{
+    //    return isGrounded;
+    //}
 }
