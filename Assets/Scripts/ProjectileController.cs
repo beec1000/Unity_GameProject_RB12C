@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class ProjectileController : MonoBehaviour
 {
-    [SerializeField] private float projectileSpeed = 15f;
+    [SerializeField] private float projectileSpeed = 60f;
 
     private Rigidbody2D rigidbody2d;
 

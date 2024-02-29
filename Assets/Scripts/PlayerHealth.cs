@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
 {
-    [SerializeField] private float maxHealth = 10f;
+    [SerializeField] private float maxHealth = 3f;
     [SerializeField] private GameObject bloodDropsFX;
 
     private float currentHealth;

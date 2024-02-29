@@ -10,6 +10,8 @@ TagManager:
   - Coin
   - JumpPad
   - Weapon
+  - Enemy
+  - DmgEffect
   layers:
   - Default
   - TransparentFX

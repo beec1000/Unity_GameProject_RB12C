@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6425737994613542106
 Transform:
   m_ObjectHideFlags: 0
@@ -4843,7 +4843,7 @@ GameObject:
   - component: {fileID: 8997060547391984429}
   - component: {fileID: 3544885066182260975}
   m_Layer: 0
-  m_Name: missle
+  m_Name: bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4857,13 +4857,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8049225272032001392}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.2, y: 0.2, z: 1}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7707215912636187655}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &8348932665959106288
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4905,7 +4905,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 97c6b59b016b7764abb5adcfed5a105e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a200f77458bec244ca4591be61cc6c66, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -4952,7 +4952,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.62, y: 2.98}
+    oldSize: {x: 4.99, y: 4.99}
     newSize: {x: 1.62, y: 2.98}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -4973,7 +4973,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b113a534f3ee7b8488083f615e1f9e39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 2
+  damage: 0.5
   explosionEcffect: {fileID: 3404133476690883620, guid: b9d853e816f5efb44ac0ee61d5712a8e, type: 3}
 --- !u!1 &9117586924902374374
 GameObject:

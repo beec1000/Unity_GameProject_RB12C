@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Runtime.InteropServices;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -7,6 +8,7 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float maxSpeed = 9;
     [SerializeField] private float jumpHeight = 650;
+    [SerializeField] private float jumpForce = 8f;
 
     [SerializeField] private Transform groundChecker;
     [SerializeField] private LayerMask groundLayer;
@@ -17,6 +19,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject JumpingPad;
 
     [SerializeField] ParticleSystem dyingParticle;
+    [SerializeField] private GameObject bloodDropsFX;
 
     private Animator animator;
     private Rigidbody2D player;
@@ -34,7 +37,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform gunMuzzle;
     [SerializeField] private GameObject projectile;
 
-    [SerializeField] private float fireRate = .5f;
+    [SerializeField] private float fireRate = 0.2f;
     private float nextFire;
 
     private bool hasWeapon = false;
@@ -127,8 +130,7 @@ public class PlayerController : MonoBehaviour
     private void TakeDamage(float damage)
     {
         currentHealth -= damage;
-        dyingParticle.Play();
-        Debug.Log(currentHealth);
+        Instantiate(bloodDropsFX, transform.position, transform.rotation);
         if (currentHealth <= 0)
         {
             Die();
@@ -157,7 +159,7 @@ public class PlayerController : MonoBehaviour
 
         if (collision.CompareTag("JumpPad") && !isGrounded)
         {
-            player.AddForce(new Vector2(0, jumpHeight * 1.5f));
+            player.AddForce(new Vector2(0, jumpHeight * 2.5f));
         }
 
         if (collision.gameObject.CompareTag("Coin"))

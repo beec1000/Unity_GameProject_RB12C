@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class MissleHit : MonoBehaviour
 {
-    [SerializeField] private float damage = 2f;
+    [SerializeField] private float damage = 0.5f;
     [SerializeField] private GameObject explosionEcffect;
 
     private ProjectileController controller;
