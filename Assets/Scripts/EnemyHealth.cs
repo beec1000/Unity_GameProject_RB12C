@@ -3,11 +3,13 @@ using UnityEngine;
 public class EnemyHealth : MonoBehaviour
 {
     [SerializeField] private float maxHealth = 5f;
+    private float dummyHealth = float.PositiveInfinity;
     private float currentHealth;
 
     private void Start()
     {
         currentHealth = maxHealth;
+        if (gameObject.CompareTag("TrainingDummy")) currentHealth = dummyHealth;
     }
 
     public void TakeDamage(float damage)

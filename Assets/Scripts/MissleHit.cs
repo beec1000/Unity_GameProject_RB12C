@@ -14,7 +14,7 @@ public class MissleHit : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D target)
     {
-        if (target.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        if (target.gameObject.layer == LayerMask.NameToLayer("Ground") || target.CompareTag("TrainingDummy"))
         {
             controller.Stop();
             Instantiate(explosionEcffect, transform.position, transform.rotation);

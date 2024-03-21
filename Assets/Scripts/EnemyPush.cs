@@ -3,14 +3,6 @@ using UnityEngine;
 public class EnemyDamage : MonoBehaviour
 {
     [SerializeField] private float pushForce = 0.5f;
-    //private void OnTriggerStay2D(Collider2D player)
-    //{
-    //    PlayerController playerController = player.GetComponent<PlayerController>();
-    //    if (player.CompareTag("Player") && playerController != null && !playerController.IsGrounded())
-    //    {
-    //        PushBack(player.transform);
-    //    }
-    //}
 
     private void OnTriggerStay2D(Collider2D player)
     {

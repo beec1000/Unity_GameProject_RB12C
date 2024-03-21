@@ -2,6 +2,7 @@ using System.Collections;
 using System.Runtime.InteropServices;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
@@ -21,6 +22,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] ParticleSystem dyingParticle;
     [SerializeField] private GameObject bloodDropsFX;
 
+    [SerializeField] private float maxHealth = 4f;
+    [SerializeField] private Slider healthBar;
+    [SerializeField] private float dmgSmoothTime = .5f;
+
+    private float currentHealth;
     private Animator animator;
     private Rigidbody2D player;
     private bool isFacingRight;
@@ -29,10 +35,6 @@ public class PlayerController : MonoBehaviour
 
     private Vector2 startPos;
     SpriteRenderer spriteRenderer;
-
-    [SerializeField] private float MaxHealth = 3f;
-
-    private float currentHealth;
 
     [SerializeField] private Transform gunMuzzle;
     [SerializeField] private GameObject projectile;
@@ -62,8 +64,11 @@ public class PlayerController : MonoBehaviour
         HiddenDamagingTiles.SetActive(false);
         JumpingPad.SetActive(false);
 
+        currentHealth = maxHealth;
+        healthBar.maxValue = maxHealth;
+        healthBar.value = maxHealth;
+
         startPos = transform.position;
-        currentHealth = MaxHealth;
     }
 
 
@@ -130,6 +135,7 @@ public class PlayerController : MonoBehaviour
     private void TakeDamage(float damage)
     {
         currentHealth -= damage;
+        healthBar.value = currentHealth;
         Instantiate(bloodDropsFX, transform.position, transform.rotation);
         if (currentHealth <= 0)
         {
@@ -159,7 +165,7 @@ public class PlayerController : MonoBehaviour
 
         if (collision.CompareTag("JumpPad") && !isGrounded)
         {
-            player.AddForce(new Vector2(0, jumpHeight * 2.5f));
+            player.AddForce(new Vector2(0, jumpHeight * 2f));
         }
 
         if (collision.gameObject.CompareTag("Coin"))

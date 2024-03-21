@@ -12,6 +12,7 @@ TagManager:
   - Weapon
   - Enemy
   - DmgEffect
+  - TrainingDummy
   layers:
   - Default
   - TransparentFX
@@ -20,7 +21,7 @@ TagManager:
   - Water
   - UI
   - Secret
-  - 
+  - Hitable
   - 
   - 
   - 
