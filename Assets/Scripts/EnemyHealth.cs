@@ -10,6 +10,7 @@ public class EnemyHealth : MonoBehaviour
     {
         currentHealth = maxHealth;
         if (gameObject.CompareTag("TrainingDummy")) currentHealth = dummyHealth;
+        if (gameObject.CompareTag("Enemy")) currentHealth = maxHealth;
     }
 
     public void TakeDamage(float damage)

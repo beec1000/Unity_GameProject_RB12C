@@ -145,7 +145,7 @@ public class PlayerController : MonoBehaviour
 
     public void GetHP(float hp)
     {
-        currentHealth += hp;
+        currentHealth = hp;
         healthBar.value = currentHealth;
     }
 

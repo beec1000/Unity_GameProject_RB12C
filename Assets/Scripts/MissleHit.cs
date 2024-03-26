@@ -2,10 +2,11 @@ using UnityEngine;
 
 public class MissleHit : MonoBehaviour
 {
-    [SerializeField] private float damage = 0.5f;
+    [SerializeField] private float damage = 1f;
     [SerializeField] private GameObject explosionEcffect;
 
     private ProjectileController controller;
+    private EnemyHealth enemyHealth;
 
     private void Awake()
     {
@@ -18,13 +19,16 @@ public class MissleHit : MonoBehaviour
         {
             controller.Stop();
             Instantiate(explosionEcffect, transform.position, transform.rotation);
-            Destroy(gameObject);
+            Destroy(gameObject);      
+        }
 
-            if (target.CompareTag("Enemy"))
-            {
-                EnemyHealth enemyHealth = target.gameObject.GetComponent<EnemyHealth>();
-                enemyHealth.TakeDamage(damage);
-            }
+        if (target.CompareTag("Enemy"))
+        {
+            enemyHealth = target.gameObject.GetComponent<EnemyHealth>();
+            enemyHealth.TakeDamage(damage);
+            controller.Stop();
+            Instantiate(explosionEcffect, transform.position, transform.rotation);
+            Destroy(gameObject);
         }
     }
 }

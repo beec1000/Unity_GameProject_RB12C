@@ -5,9 +5,11 @@ using UnityEngine;
 
 public class HealthPickup : MonoBehaviour
 {
+    private PlayerController playerController;
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        PlayerController playerController = collision.GetComponent<PlayerController>();
+       playerController = collision.GetComponent<PlayerController>();
 
         if (collision.gameObject.CompareTag("Player"))
         {
