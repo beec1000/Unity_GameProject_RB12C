@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class EnemyDamage : MonoBehaviour
 {
-    [SerializeField] private float pushForce = 0.5f;
+    [SerializeField] private float pushForce = 10f;
 
     private void OnTriggerStay2D(Collider2D player)
     {

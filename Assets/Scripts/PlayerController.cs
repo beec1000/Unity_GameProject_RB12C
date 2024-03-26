@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] ParticleSystem dyingParticle;
     [SerializeField] private GameObject bloodDropsFX;
 
-    [SerializeField] private float maxHealth = 4f;
+    [SerializeField] public float maxHealth = 10f;
     [SerializeField] private Slider healthBar;
     [SerializeField] private float dmgSmoothTime = .5f;
 
@@ -76,7 +76,7 @@ public class PlayerController : MonoBehaviour
     {
         if (isAlive && player.position.y < -30)
         {
-            Die();
+            TakeDamage(2f);
         }
 
         if (isGrounded && Input.GetButtonDown("Jump"))
@@ -143,6 +143,12 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void GetHP(float hp)
+    {
+        currentHealth += hp;
+        healthBar.value = currentHealth;
+    }
+
     private void Die()
     {
         isAlive = false;
@@ -155,7 +161,7 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.CompareTag("DamagingObstacle"))
         {
-            TakeDamage(0.5f);
+            TakeDamage(1f);
         }
 
         if (collision.CompareTag("Secret1"))
@@ -198,9 +204,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-
-
-
     IEnumerator Respawn(float duration)
     {
         player.simulated = false;
@@ -215,9 +218,4 @@ public class PlayerController : MonoBehaviour
         JumpingPad.SetActive(false);
         SceneManager.LoadSceneAsync(1);
     }
-
-    //public bool IsGrounded()
-    //{
-    //    return isGrounded;
-    //}
 }
