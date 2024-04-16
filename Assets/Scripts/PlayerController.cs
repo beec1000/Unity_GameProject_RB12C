@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] ParticleSystem dyingParticle;
     [SerializeField] private GameObject bloodDropsFX;
 
-    [SerializeField] public float maxHealth = 10f;
+    [SerializeField] private float maxHealth = 10f;
     [SerializeField] private Slider healthBar;
     [SerializeField] private float dmgSmoothTime = .5f;
 
@@ -44,10 +44,17 @@ public class PlayerController : MonoBehaviour
 
     private bool hasWeapon = false;
 
+    private bool isInTrap = false;
+    private float trapDamageTimer = 0f;
+    private float trapDamageInterval = 1f;
+
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
+
+    public float GetCurrentHealth() => currentHealth;
+    public float GetMaxHealth() => maxHealth;
 
     private void Start()
     {
@@ -57,7 +64,7 @@ public class PlayerController : MonoBehaviour
         dyingParticle.Pause();
 
         isFacingRight = true;
-        isGrounded = false;
+        isGrounded = false; 
         isAlive = true;
 
         SecretTiles.SetActive(true);
@@ -74,9 +81,25 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        healthBar.value = currentHealth;
         if (isAlive && player.position.y < -30)
         {
-            TakeDamage(2f);
+            Die();
+            isAlive = false;
+        }
+        if (isInTrap)
+        {
+            trapDamageTimer += Time.deltaTime;
+
+            if (trapDamageTimer >= trapDamageInterval)
+            {
+                TakeDamage(2f);
+                trapDamageTimer = 0f;
+            }
+        }
+        else
+        {
+            trapDamageTimer = 0f;
         }
 
         if (isGrounded && Input.GetButtonDown("Jump"))
@@ -146,7 +169,6 @@ public class PlayerController : MonoBehaviour
     public void GetHP(float hp)
     {
         currentHealth = hp;
-        healthBar.value = currentHealth;
     }
 
     private void Die()
@@ -161,6 +183,7 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.CompareTag("DamagingObstacle"))
         {
+            isInTrap = true;
             TakeDamage(1f);
         }
 
@@ -201,6 +224,13 @@ public class PlayerController : MonoBehaviour
 
             hasWeapon = true;
 
+        }
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("DamagingObstacle"))
+        {
+            isInTrap = false;
         }
     }
 
