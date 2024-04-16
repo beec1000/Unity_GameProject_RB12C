@@ -6,6 +6,12 @@ using UnityEngine;
 public class HealthPickup : MonoBehaviour
 {
     private PlayerController playerController;
+    private bool pickedUp;
+
+    private void Awake()
+    {
+        pickedUp = false;
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -14,6 +20,7 @@ public class HealthPickup : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             playerController.GetHP(playerController.maxHealth);
+            pickedUp = true;
             gameObject.SetActive(false);
         }
     }
