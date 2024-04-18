@@ -44,9 +44,9 @@ public class PlayerController : MonoBehaviour
 
     private bool hasWeapon = false;
 
-    private bool isInTrap = false;
-    private float trapDamageTimer = 0f;
-    private float trapDamageInterval = 1f;
+    [SerializeField] private AudioClip grunt;
+
+    private AudioSource audioS;
 
     private void Awake()
     {
@@ -58,6 +58,7 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        audioS = GetComponent<AudioSource>();
         animator = GetComponent<Animator>();
         player = GetComponent<Rigidbody2D>();
 
@@ -87,20 +88,7 @@ public class PlayerController : MonoBehaviour
             Die();
             isAlive = false;
         }
-        if (isInTrap)
-        {
-            trapDamageTimer += Time.deltaTime;
-
-            if (trapDamageTimer >= trapDamageInterval)
-            {
-                TakeDamage(2f);
-                trapDamageTimer = 0f;
-            }
-        }
-        else
-        {
-            trapDamageTimer = 0f;
-        }
+        
 
         if (isGrounded && Input.GetButtonDown("Jump"))
         {
@@ -155,8 +143,9 @@ public class PlayerController : MonoBehaviour
             z: transform.localScale.z);
     }
 
-    private void TakeDamage(float damage)
+    public void TakeDamage(float damage)
     {
+        audioS.PlayOneShot(grunt);
         currentHealth -= damage;
         healthBar.value = currentHealth;
         Instantiate(bloodDropsFX, transform.position, transform.rotation);
@@ -173,6 +162,9 @@ public class PlayerController : MonoBehaviour
 
     private void Die()
     {
+        audioS.pitch = .5f;
+        audioS.PlayOneShot(grunt);
+
         isAlive = false;
         hasWeapon = false;
         dyingParticle.Play();
@@ -181,11 +173,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("DamagingObstacle"))
-        {
-            isInTrap = true;
-            TakeDamage(1f);
-        }
+       
 
         if (collision.CompareTag("Secret1"))
         {
@@ -224,13 +212,6 @@ public class PlayerController : MonoBehaviour
 
             hasWeapon = true;
 
-        }
-    }
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.CompareTag("DamagingObstacle"))
-        {
-            isInTrap = false;
         }
     }
 

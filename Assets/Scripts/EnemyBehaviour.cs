@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class EnemyBehaviour : MonoBehaviour
 {
-    [SerializeField] float runSpeed = 7f;
+    [SerializeField] float runSpeed = 5f;
     [SerializeField] private float flipTime = 2f;
+    [SerializeField] private AudioClip enemySound;
+
+    private AudioSource audioS;
 
     private Rigidbody2D rigidbody2d;
 
@@ -16,6 +19,7 @@ public class EnemyBehaviour : MonoBehaviour
 
     private void Start()
     {
+        audioS = GetComponent<AudioSource>();
         rigidbody2d = GetComponent<Rigidbody2D>();
     }
 
@@ -45,6 +49,7 @@ public class EnemyBehaviour : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             rigidbody2d.AddForce(new Vector2(x: facingRight ? +1 : -1, y: 0) * runSpeed);
+            audioS.PlayOneShot(enemySound);
         }
     }
 

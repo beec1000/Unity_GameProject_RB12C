@@ -10,12 +10,15 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] private GameObject bloodDropsFX;
     [SerializeField] private Slider healthBar;
     [SerializeField] private float dmgSmoothTime = .5f;
+    [SerializeField] private AudioClip grunt;
 
+    private AudioSource audioS;
     private float currentHealth;
     private bool getDamage;
 
     private void Start()
     {
+        audioS = GetComponent<AudioSource>();
         getDamage = false;
         currentHealth = maxHealth;
         healthBar.maxValue = maxHealth;
@@ -24,6 +27,7 @@ public class PlayerHealth : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
+        audioS.PlayOneShot(grunt);
         currentHealth -= damage;
         getDamage = true;
         healthBar.value = currentHealth;

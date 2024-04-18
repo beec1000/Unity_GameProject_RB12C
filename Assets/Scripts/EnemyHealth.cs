@@ -24,6 +24,6 @@ public class EnemyHealth : MonoBehaviour
 
     private void MakeDeath()
     {
-        Destroy(gameObject);
+        Destroy(transform.parent.gameObject);
     }
 }
