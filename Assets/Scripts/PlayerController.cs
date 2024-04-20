@@ -45,6 +45,12 @@ public class PlayerController : MonoBehaviour
     private bool hasWeapon = false;
 
     [SerializeField] private AudioClip grunt;
+    [SerializeField] private AudioClip coinSound;
+    [SerializeField] private AudioClip hpSound;
+    [SerializeField] private AudioClip secretSound;
+    [SerializeField] private AudioClip jumpPadSound;
+    [SerializeField] private AudioClip weaponSound;
+    [SerializeField] private AudioClip bulletSound;
 
     private AudioSource audioS;
 
@@ -116,6 +122,7 @@ public class PlayerController : MonoBehaviour
 
         if (Time.time >= nextFire && Input.GetAxisRaw("Fire1") != 0 && hasWeapon)
         {
+            audioS.PlayOneShot(bulletSound);
             nextFire = Time.time + fireRate;
             Instantiate(projectile, gunMuzzle.position, Quaternion.Euler(0, 0,
                 z: isFacingRight ? 0 : 180));
@@ -177,21 +184,31 @@ public class PlayerController : MonoBehaviour
 
         if (collision.CompareTag("Secret1"))
         {
+            audioS.PlayOneShot(secretSound);
             SecretTiles.SetActive(false);
         }
 
         if (collision.CompareTag("JumpPad") && !isGrounded)
         {
+            audioS.PlayOneShot(jumpPadSound);
             player.AddForce(new Vector2(0, jumpHeight * 2f));
         }
 
         if (collision.gameObject.CompareTag("Coin"))
         {
+            audioS.PlayOneShot(coinSound);
             Destroy(collision.gameObject);
+        }
+
+        if (collision.CompareTag("HealthPickup"))
+        {
+            audioS.PlayOneShot(hpSound);
         }
 
         if (collision.CompareTag("Weapon"))
         {
+            audioS.PlayOneShot(weaponSound);
+
             Transform weaponTransform = collision.transform;
             weaponTransform.parent = transform;
 
