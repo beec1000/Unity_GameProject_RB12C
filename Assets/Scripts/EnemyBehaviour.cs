@@ -10,6 +10,8 @@ public class EnemyBehaviour : MonoBehaviour
 
     private AudioSource audioS;
 
+    private bool isSoundPlaying = false;
+
     private Rigidbody2D rigidbody2d;
 
     private bool facingRight = false;
@@ -49,7 +51,12 @@ public class EnemyBehaviour : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             rigidbody2d.AddForce(new Vector2(x: facingRight ? +1 : -1, y: 0) * runSpeed);
-            audioS.PlayOneShot(enemySound);
+            if (!isSoundPlaying || Time.time >= audioS.time)
+            {
+                audioS.Stop();
+                audioS.PlayOneShot(enemySound);
+                isSoundPlaying = true;
+            }
         }
     }
 
@@ -60,6 +67,7 @@ public class EnemyBehaviour : MonoBehaviour
             canFlip = true;
 
             rigidbody2d.velocity = Vector2.zero;
+            isSoundPlaying = false;
         }
     }
 

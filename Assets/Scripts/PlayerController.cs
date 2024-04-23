@@ -61,6 +61,8 @@ public class PlayerController : MonoBehaviour
 
     public float GetCurrentHealth() => currentHealth;
     public float GetMaxHealth() => maxHealth;
+    public AudioSource GetAudioS => audioS;
+    public AudioClip GetHpSound => hpSound;
 
     private void Start()
     {
@@ -200,10 +202,10 @@ public class PlayerController : MonoBehaviour
             Destroy(collision.gameObject);
         }
 
-        if (collision.CompareTag("HealthPickup"))
-        {
-            audioS.PlayOneShot(hpSound);
-        }
+        //if (collision.CompareTag("HealthPickup"))
+        //{
+        //    audioS.PlayOneShot(hpSound);
+        //}
 
         if (collision.CompareTag("Weapon"))
         {

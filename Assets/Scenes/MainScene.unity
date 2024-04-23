@@ -7789,7 +7789,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   runSpeed: 5
   flipTime: 2
-  enemySound: {fileID: 0}
+  enemySound: {fileID: 8300000, guid: 74825b24cbfb5f94499f316477da994d, type: 3}
 --- !u!82 &955064992
 AudioSource:
   m_ObjectHideFlags: 0

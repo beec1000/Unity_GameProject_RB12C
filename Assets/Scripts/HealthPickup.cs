@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
+
 public class HealthPickup : MonoBehaviour
 {
     private PlayerController playerController;
@@ -14,6 +15,9 @@ public class HealthPickup : MonoBehaviour
         if (collision.gameObject.CompareTag("Player") && playerController.GetCurrentHealth() != playerController.GetMaxHealth())
         {
             playerController.GetHP(playerController.GetMaxHealth());
+
+            playerController.GetAudioS.PlayOneShot(playerController.GetHpSound);
+
             gameObject.SetActive(false);
         }
     }
