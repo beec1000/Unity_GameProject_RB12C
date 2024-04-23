@@ -6,16 +6,26 @@ public class EnemyHealth : MonoBehaviour
     [SerializeField] private AudioClip enemyDeathSound;
 
     private AudioSource audioS;
+    private Animator animator;
     private float dummyHealth = float.PositiveInfinity;
     private float currentHealth;
 
     private void Start()
     {
         audioS = GetComponent<AudioSource>();
+        animator = GetComponent<Animator>();
 
         currentHealth = maxHealth;
         if (gameObject.CompareTag("TrainingDummy")) currentHealth = dummyHealth;
         if (gameObject.CompareTag("Enemy")) currentHealth = maxHealth;
+    }
+
+    private void Update()
+    {
+        if (currentHealth <= 0)
+        {
+            
+        }
     }
 
     public void TakeDamage(float damage)
@@ -23,6 +33,7 @@ public class EnemyHealth : MonoBehaviour
         currentHealth -= damage;
         if (currentHealth <= 0)
         {
+            animator.SetTrigger("Death");
             MakeDeath();
         }
     }
@@ -30,6 +41,6 @@ public class EnemyHealth : MonoBehaviour
     private void MakeDeath()
     {
         audioS.PlayOneShot(enemyDeathSound);
-        Destroy(transform.parent.gameObject);
+        Destroy(transform.parent.gameObject, 2f);
     }
 }
