@@ -34,7 +34,7 @@ public class PlayerController : MonoBehaviour
     private bool isAlive;
 
     private Vector2 startPos;
-    SpriteRenderer spriteRenderer;
+    private SpriteRenderer spriteRenderer;
 
     [SerializeField] private Transform gunMuzzle;
     [SerializeField] private GameObject projectile;

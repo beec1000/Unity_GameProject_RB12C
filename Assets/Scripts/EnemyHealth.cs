@@ -5,17 +5,21 @@ public class EnemyHealth : MonoBehaviour
     [SerializeField] private float maxHealth = 5f;
     [SerializeField] private AudioClip enemyDeathSound;
 
+    private SpriteRenderer spriteRenderer;
     private AudioSource audioS;
     private Animator animator;
-    private float dummyHealth = float.PositiveInfinity;
+    private float dummyHealth;
     private float currentHealth;
 
     private void Start()
     {
         audioS = GetComponent<AudioSource>();
         animator = GetComponent<Animator>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
 
+        dummyHealth = Mathf.Infinity;
         currentHealth = maxHealth;
+
         if (gameObject.CompareTag("TrainingDummy")) currentHealth = dummyHealth;
         if (gameObject.CompareTag("Enemy")) currentHealth = maxHealth;
     }
@@ -33,6 +37,7 @@ public class EnemyHealth : MonoBehaviour
         currentHealth -= damage;
         if (currentHealth <= 0)
         {
+            spriteRenderer.enabled = false;
             animator.SetTrigger("Death");
             MakeDeath();
         }
