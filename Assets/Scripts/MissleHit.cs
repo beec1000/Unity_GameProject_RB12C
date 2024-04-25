@@ -11,6 +11,7 @@ public class MissleHit : MonoBehaviour
     private void Awake()
     {
         controller = GetComponentInParent<ProjectileController>();
+        enemyHealth = GetComponentInParent<EnemyHealth>();
     }
 
     private void OnTriggerEnter2D(Collider2D target)

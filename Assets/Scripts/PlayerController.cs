@@ -4,6 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 
 public class PlayerController : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private GameObject SecretTiles;
     [SerializeField] private GameObject HiddenDamagingTiles;
+    [SerializeField] private GameObject HiddenDamagingTiles2;
 
     [SerializeField] private GameObject JumpingPad;
 
@@ -78,6 +80,7 @@ public class PlayerController : MonoBehaviour
 
         SecretTiles.SetActive(true);
         HiddenDamagingTiles.SetActive(false);
+        HiddenDamagingTiles2.SetActive(false);
         JumpingPad.SetActive(false);
 
         currentHealth = maxHealth;
@@ -110,6 +113,11 @@ public class PlayerController : MonoBehaviour
         {
             HiddenDamagingTiles.SetActive(true);
         }
+
+        /*if (player.position.x < && player.position.x > && player.position.y < && player.position.y > )
+        {
+            HiddenDamaginTiles2.SetActive(true);
+        }*/
 
         if (CoinCounter.Instance.score == 6)
         {
@@ -182,8 +190,6 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-       
-
         if (collision.CompareTag("Secret1"))
         {
             audioS.PlayOneShot(secretSound);
@@ -201,11 +207,6 @@ public class PlayerController : MonoBehaviour
             audioS.PlayOneShot(coinSound);
             Destroy(collision.gameObject);
         }
-
-        //if (collision.CompareTag("HealthPickup"))
-        //{
-        //    audioS.PlayOneShot(hpSound);
-        //}
 
         if (collision.CompareTag("Weapon"))
         {
