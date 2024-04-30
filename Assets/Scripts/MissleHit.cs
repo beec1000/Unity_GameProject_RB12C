@@ -16,6 +16,8 @@ public class MissleHit : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D target)
     {
+        enemyHealth = target.gameObject.GetComponent<EnemyHealth>();
+
         if (target.gameObject.layer == LayerMask.NameToLayer("Ground") || target.CompareTag("TrainingDummy"))
         {
             controller.Stop();
@@ -25,7 +27,6 @@ public class MissleHit : MonoBehaviour
 
         if (target.CompareTag("Enemy"))
         {
-            enemyHealth = target.gameObject.GetComponent<EnemyHealth>();
             enemyHealth.TakeDamage(damage);
             controller.Stop();
             Instantiate(explosionEcffect, transform.position, transform.rotation);

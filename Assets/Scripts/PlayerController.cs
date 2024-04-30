@@ -4,7 +4,6 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using UnityEngine.UIElements;
 
 public class PlayerController : MonoBehaviour
 {
@@ -114,10 +113,10 @@ public class PlayerController : MonoBehaviour
             HiddenDamagingTiles.SetActive(true);
         }
 
-        /*if (player.position.x < && player.position.x > && player.position.y < && player.position.y > )
+        if (player.position.x < 61 && player.position.x > 48 && player.position.y < -1)
         {
-            HiddenDamaginTiles2.SetActive(true);
-        }*/
+            HiddenDamagingTiles2.SetActive(true);
+        }
 
         if (CoinCounter.Instance.score == 6)
         {
@@ -208,7 +207,12 @@ public class PlayerController : MonoBehaviour
             Destroy(collision.gameObject);
         }
 
-        if (collision.CompareTag("Weapon"))
+        
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Weapon") && Input.GetKey(KeyCode.E))
         {
             audioS.PlayOneShot(weaponSound);
 
@@ -234,6 +238,8 @@ public class PlayerController : MonoBehaviour
 
         }
     }
+
+
 
     IEnumerator Respawn(float duration)
     {

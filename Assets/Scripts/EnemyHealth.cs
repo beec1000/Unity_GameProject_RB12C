@@ -26,14 +26,14 @@ public class EnemyHealth : MonoBehaviour
     {
         currentHealth -= damage;
         if (currentHealth <= 0)
-        {        
+        {
+            animator.SetTrigger("Death");
             MakeDeath();
         }
     }
 
     private void MakeDeath()
     {
-        animator.SetTrigger("Death");
         audioS.PlayOneShot(enemyDeathSound);
         Destroy(transform.parent.gameObject, 2f);
     }
