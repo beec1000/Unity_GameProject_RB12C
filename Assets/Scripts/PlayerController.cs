@@ -43,7 +43,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float fireRate = 0.2f;
     private float nextFire;
 
-    private bool hasWeapon = false;
+    public bool hasWeapon = false;
 
     [SerializeField] private AudioClip grunt;
     [SerializeField] private AudioClip coinSound;
@@ -238,7 +238,6 @@ public class PlayerController : MonoBehaviour
 
         }
     }
-
 
 
     IEnumerator Respawn(float duration)

@@ -14,6 +14,7 @@ TagManager:
   - DmgEffect
   - TrainingDummy
   - HealthPickup
+  - WeaponTutorial
   layers:
   - Default
   - TransparentFX
