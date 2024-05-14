@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject JumpingPad;
 
     [SerializeField] ParticleSystem dyingParticle;
+    [SerializeField] ParticleSystem confettiParticle;
     [SerializeField] private GameObject bloodDropsFX;
 
     [SerializeField] private float maxHealth = 10f;
@@ -35,6 +36,7 @@ public class PlayerController : MonoBehaviour
     private bool isAlive;
 
     private Vector2 startPos;
+    private Vector2 checkPos;
     private SpriteRenderer spriteRenderer;
 
     [SerializeField] private Transform gunMuzzle;
@@ -52,6 +54,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private AudioClip jumpPadSound;
     [SerializeField] private AudioClip weaponSound;
     [SerializeField] private AudioClip bulletSound;
+    [SerializeField] private AudioClip checkpointSound;
 
     private AudioSource audioS;
 
@@ -72,6 +75,7 @@ public class PlayerController : MonoBehaviour
         player = GetComponent<Rigidbody2D>();
 
         dyingParticle.Pause();
+        confettiParticle.Pause();
 
         isFacingRight = true;
         isGrounded = false; 
@@ -207,8 +211,16 @@ public class PlayerController : MonoBehaviour
             Destroy(collision.gameObject);
         }
 
+        if (collision.gameObject.CompareTag("Checkpoint"))
+        {
+            confettiParticle.Play();
+            audioS.PlayOneShot(checkpointSound);
+            checkPos = transform.position;
+        }
+
         
     }
+
 
     private void OnTriggerStay2D(Collider2D collision)
     {
@@ -245,13 +257,25 @@ public class PlayerController : MonoBehaviour
         player.simulated = false;
         spriteRenderer.enabled = false;
         yield return new WaitForSeconds(duration);
-        transform.position = startPos;
-        player.simulated = true;
-        spriteRenderer.enabled = true;
-        isAlive = true;
-        SecretTiles.SetActive(true);
-        HiddenDamagingTiles.SetActive(false);
-        JumpingPad.SetActive(false);
-        SceneManager.LoadSceneAsync(1);
+        if (checkPos != Vector2.zero)
+        {
+            transform.position = checkPos;
+            currentHealth = maxHealth;
+            player.simulated = true;
+            spriteRenderer.enabled = true;
+            isAlive = true;
+        }
+        else
+        {
+            transform.position = startPos;
+            player.simulated = true;
+            spriteRenderer.enabled = true;
+            isAlive = true;
+            SecretTiles.SetActive(true);
+            HiddenDamagingTiles.SetActive(false);
+            JumpingPad.SetActive(false);
+            SceneManager.LoadSceneAsync(1);
+        }
+        
     }
 }

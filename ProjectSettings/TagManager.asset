@@ -15,6 +15,7 @@ TagManager:
   - TrainingDummy
   - HealthPickup
   - WeaponTutorial
+  - Checkpoint
   layers:
   - Default
   - TransparentFX
