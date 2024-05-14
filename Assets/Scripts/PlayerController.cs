@@ -4,6 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
@@ -87,6 +88,9 @@ public class PlayerController : MonoBehaviour
         healthBar.value = maxHealth;
 
         startPos = transform.position;
+
+        
+
     }
 
 
@@ -219,18 +223,15 @@ public class PlayerController : MonoBehaviour
             Transform weaponTransform = collision.transform;
             weaponTransform.parent = transform;
 
-            if (isFacingRight)
+            if (!isFacingRight)
             {
-                weaponTransform.localPosition = new Vector3(0.3f, -0.1f, 0f);
-            }
-            else
-            {
-                weaponTransform.localPosition = new Vector3(0.3f, -0.1f, 0f);
+                Flip();
                 weaponTransform.localScale = new Vector3(
-             x: weaponTransform.localScale.x * -1,
-             y: weaponTransform.localScale.y,
-             z: weaponTransform.localScale.z);
+                  x: weaponTransform.localScale.x * -1,
+                  y: weaponTransform.localScale.y,
+                  z: weaponTransform.localScale.z);
             }
+            weaponTransform.localPosition = new Vector3(0.3f, -0.1f, 0f);
 
             weaponTransform.GetComponent<Collider2D>().enabled = false;
 

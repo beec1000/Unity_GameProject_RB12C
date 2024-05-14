@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PickupPopupHandler : MonoBehaviour
 {
-    [SerializeField] GameObject pickupText;
+    [SerializeField] private GameObject pickupText;
 
     void Start()
     {
