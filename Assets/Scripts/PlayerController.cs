@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject SecretTiles;
     [SerializeField] private GameObject HiddenDamagingTiles;
     [SerializeField] private GameObject HiddenDamagingTiles2;
+    [SerializeField] private GameObject hintText;
 
     [SerializeField] private GameObject JumpingPad;
 
@@ -85,6 +86,7 @@ public class PlayerController : MonoBehaviour
         SecretTiles.SetActive(true);
         HiddenDamagingTiles.SetActive(false);
         HiddenDamagingTiles2.SetActive(false);
+        hintText.SetActive(false);
         JumpingPad.SetActive(false);
 
         currentHealth = maxHealth;
@@ -124,6 +126,8 @@ public class PlayerController : MonoBehaviour
         if (player.position.x < 61 && player.position.x > 48 && player.position.y < -1)
         {
             HiddenDamagingTiles2.SetActive(true);
+            hintText.SetActive(true);
+
         }
 
         if (CoinCounter.Instance.score == 6)
@@ -265,6 +269,8 @@ public class PlayerController : MonoBehaviour
             player.simulated = true;
             spriteRenderer.enabled = true;
             isAlive = true;
+            HiddenDamagingTiles2.SetActive(false);
+            hintText.SetActive(false);
         }
         else
         {
