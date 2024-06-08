@@ -123,12 +123,16 @@ public class PlayerController : MonoBehaviour
             HiddenDamagingTiles.SetActive(true);
         }
 
-        if (player.position.x < 60 && player.position.x > 48 && player.position.y < -10)
+        if (player.position.x < 60 && player.position.x > 48 && player.position.y < -1)
         {
             HiddenDamagingTiles2.SetActive(true);
-            hintText.SetActive(true);
 
         }
+        //if (player.position.x < 60 && player.position.x > 48 && player.position.y < -2)
+        //{
+        //    hintText.SetActive(true);
+
+        //}
 
         if (CoinCounter.Instance.score == 6)
         {
